@@ -23,6 +23,8 @@ class RegisterActivity : AppCompatActivity() {
         val passwordEditText = findViewById<EditText>(R.id.edt_password)
         val emailTextView = findViewById<TextView>(R.id.tv_email)
         val passwordTextView = findViewById<TextView>(R.id.tv_password)
+        val repeatePasswordEditText = findViewById<EditText>(R.id.edt_repeat_password)
+        val repeatePasswordTextView = findViewById<TextView>(R.id.tv_repeat_password)
 
         nameEditText.afterTextChanged { text ->
             if (text == "")
@@ -37,6 +39,11 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         passwordEditText.afterTextChanged { text ->
+            if (text == "") passwordTextView.visibility = View.GONE
+            else passwordTextView.visibility = View.VISIBLE
+        }
+
+        repeatePasswordEditText.afterTextChanged { text ->
             if (text == "") passwordTextView.visibility = View.GONE
             else passwordTextView.visibility = View.VISIBLE
         }
