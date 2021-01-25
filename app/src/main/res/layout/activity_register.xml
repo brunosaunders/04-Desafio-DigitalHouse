@@ -36,7 +36,7 @@
             <TextView
                 android:id="@+id/tv_name"
                 android:text="Name"
-                android:visibility="invisible"
+                android:layout_marginTop="16dp"
                 android:layout_marginStart="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -50,7 +50,6 @@
             <TextView
                 android:id="@+id/tv_email"
                 android:text="Email"
-                android:visibility="gone"
                 android:layout_marginStart="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -64,7 +63,6 @@
 
             <TextView
                 android:id="@+id/tv_password"
-                android:visibility="gone"
                 android:text="Password"
                 android:layout_marginStart="2dp"
                 android:layout_width="match_parent"
@@ -80,7 +78,7 @@
             <TextView
                 android:id="@+id/tv_repeat_password"
                 android:text="Repeat Password"
-                android:visibility="gone"
+                android:layout_marginStart="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

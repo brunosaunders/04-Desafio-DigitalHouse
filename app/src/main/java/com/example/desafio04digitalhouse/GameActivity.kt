@@ -3,10 +3,9 @@ package com.example.desafio04digitalhouse
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
-class RegisterActivity : AppCompatActivity() {
+class GameActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
-
+        setContentView(R.layout.activity_game)
     }
 }

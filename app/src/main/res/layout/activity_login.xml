@@ -19,7 +19,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="0dp"
-        android:layout_height="300dp"
+        android:layout_height="340dp"
         android:layout_marginHorizontal="8dp"
         app:cardCornerRadius="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -36,7 +36,6 @@
             <TextView
                 android:id="@+id/tv_email"
                 android:text="Email"
-                android:visibility="invisible"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="36dp"
                 android:layout_width="match_parent"
@@ -51,7 +50,6 @@
 
             <TextView
                 android:id="@+id/tv_password"
-                android:visibility="gone"
                 android:text="Password"
                 android:layout_marginStart="2dp"
                 android:layout_width="match_parent"
