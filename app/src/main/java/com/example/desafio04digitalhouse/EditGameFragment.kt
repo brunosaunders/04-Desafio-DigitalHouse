@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
@@ -36,6 +37,14 @@ class EditGameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         vieww = inflater.inflate(R.layout.fragment_register_game, container, false)
+
+        val game = arguments?.getSerializable("game") as Game
+
+        vieww.findViewById<TextView>(R.id.edt_name).text = game.title
+        vieww.findViewById<TextView>(R.id.edt_created_at).text = game.launchYear
+        vieww.findViewById<TextView>(R.id.edt_description).text = game.description
+
+        Glide.with(vieww).load(game.imagePath).into(vieww.findViewById(R.id.civ_game_image))
 
         database = Firebase.database.reference
         storageReference = Firebase.storage.reference.child("images")
