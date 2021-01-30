@@ -1,5 +1,6 @@
 package com.example.desafio04digitalhouse.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,15 +10,27 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Registry
+import com.bumptech.glide.annotation.GlideModule
+import com.bumptech.glide.module.AppGlideModule
 import com.example.desafio04digitalhouse.R
 import com.example.desafio04digitalhouse.domain.Game
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
+import com.firebase.ui.storage.images.FirebaseImageLoader
+import com.google.android.material.card.MaterialCardView
+import com.google.firebase.storage.StorageReference
+import java.io.InputStream
 
-class GamesAdapter: ListAdapter<Game, GamesAdapter.GamesViewHolder>(GameDiff()) {
+
+class GamesAdapter(val navigate: NavigateCardAction) :
+    ListAdapter<Game, GamesAdapter.GamesViewHolder>(GameDiff()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GamesViewHolder {
-        return GamesViewHolder.from(parent)
+        val view = LayoutInflater.from(parent.context).inflate(
+            R.layout.item_list_game,
+            parent,
+            false
+        )
+        return GamesViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: GamesViewHolder, position: Int) {
@@ -25,26 +38,24 @@ class GamesAdapter: ListAdapter<Game, GamesAdapter.GamesViewHolder>(GameDiff()) 
         holder.bind(item)
     }
 
-    class GamesViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+    inner class GamesViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val image = view.findViewById<ImageView>(R.id.iv_game_image)
         val title = view.findViewById<TextView>(R.id.tv_game_title)
         val year = view.findViewById<TextView>(R.id.tv_game_year)
+        val materialCard = view.findViewById<MaterialCardView>(R.id.mcv_card)
 
-        fun bind(item: Game) {
-            title.text = item.title
-            year.text = item.launchYear
-
-            val storageReference = Firebase.storage.reference
-            val imageReference = item.imagePath?.let { storageReference.child("images").child(it) }
-            Glide.with(view).load(imageReference).into(image)
-        }
-
-        companion object {
-            fun from(parent: ViewGroup): GamesViewHolder {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_list_game, parent, false)
-                return GamesViewHolder(view)
+        fun bind(item: Game?) {
+            title.text = item?.title
+            year.text = item?.launchYear
+            materialCard.setOnClickListener {
+                item?.let {
+                    navigate.click(item)
+                }
             }
+
+            Glide.with(view).load(item?.imagePath).into(image)
         }
+
     }
 }
 
@@ -56,4 +67,19 @@ class GameDiff : DiffUtil.ItemCallback<Game>() {
     override fun areContentsTheSame(oldItem: Game, newItem: Game): Boolean {
         return oldItem.launchYear == newItem.launchYear
     }
+}
+
+@GlideModule
+class MyAppGlideModule : AppGlideModule() {
+    override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
+        // Register FirebaseImageLoader to handle StorageReference
+        registry.append(
+            StorageReference::class.java, InputStream::class.java,
+            FirebaseImageLoader.Factory()
+        )
+    }
+}
+
+class NavigateCardAction(private val onClick: (Game) -> Unit) {
+    fun click(game: Game) = onClick(game)
 }
